@@ -9,7 +9,7 @@ handlers:
   static_dir: stylesheets
 
 - url: /guestbook
-  script: guestbook/guestbook.app
+  script: guestbook.app
 
 - url: /
   script: timer.app

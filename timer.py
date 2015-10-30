@@ -15,7 +15,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class MainPage(webapp2.RequestHandler):
     def get(self):
         template_values = {}
-        template = JINJA_ENVIRONMENT.get_template('timer.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/timer.html')
         self.response.write(template.render(template_values))
 
 app = webapp2.WSGIApplication([

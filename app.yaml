@@ -8,8 +8,11 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
 
+- url: /js
+  static_dir: js
+
 - url: /guestbook
-  script: guestbook/guestbook.app
+  script: guestbook.app
 
 - url: /
   script: timer.app

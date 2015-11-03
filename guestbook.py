@@ -80,7 +80,7 @@ class MainPage(webapp2.RequestHandler):
             'url_linktext': url_linktext,
         }
 
-        template = JINJA_ENVIRONMENT.get_template('../templates/index.html')
+        template = JINJA_ENVIRONMENT.get_template('/templates/index.html')
         self.response.write(template.render(template_values))
 
 class Guestbook(webapp2.RequestHandler):

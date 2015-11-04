@@ -1,52 +1,53 @@
-// Super quick and dirty
+// Super quick and dirty, but now with objects!
 
-var go = function() {
-    var theTime = document.getElementById("time");
-    theTime.addEventListener("click", setInterval(millisecondCountdown, 1), false);
+function Timer(minutes, seconds, milliseconds) {
+    this.minutes = minutes || 0; 
+    this.seconds = seconds || 0;
+    this.milliseconds = milliseconds || 0;
+}
+
+Timer.prototype.changeMinutes = function(minutesDifference) {
+    this.minutes += minutesDifference;
 };
 
-var millisecondCountdown = function() {
-    var milliseconds = document.getElementById("milliseconds");
-    var millisecondDisplay = milliseconds.innerHTML;
-    console.log(Number(millisecondDisplay));
-    if(Number(millisecondDisplay) == 0) {
-        secondCountdown();
-        milliseconds.innerHTML = "999";
+Timer.prototype.changeSeconds = function(secondsDifference) {
+    var newSeconds = this.seconds + secondsDifference;
+    if (newSeconds >= 0) {
+        this.seconds = newSeconds % 60;
     } else {
-        milliseconds.innerHTML = formatCounter(3, Number(millisecondDisplay) - 1);
+        this.seconds = 60 + (newSeconds % 60);
+        this.changeMinutes(Math.floor(newSeconds / 60));
     }
 };
 
-var secondCountdown = function() {
-    var seconds = document.getElementById("seconds");
-    var secondDisplay = seconds.innerHTML;
-        console.log(secondDisplay);
-    if(Number(secondDisplay) == 0) {
-        minuteCountdown();
-        seconds.innerHTML = "59";
+Timer.prototype.changeMilliseconds = function(millisecondsDifference) {
+    var newMilliseconds = this.milliseconds + millisecondsDifference;
+    if (newMilliseconds >= 0) {
+        this.milliseconds = newMilliseconds % 1000;
     } else {
-        seconds.innerHTML = formatCounter(2, Number(secondDisplay) - 1);
+        this.milliseconds = 1000 + (newMilliseconds % 1000);
+        this.changeSeconds(Math.floor(newMilliseconds / 1000));
     }
 };
 
-var minuteCountdown = function() {
-    var minutes = document.getElementById("minutes");
-    var minuteDisplay = minutes.innerHTML;
-    if(Number(minuteDisplay) == 0) {
-        minuteCountdown();
-        minutes.innerHTML = "59";
-    } else {
-        minutes.innerHTML = formatCounter(2, Number(minuteDisplay) - 1);
-    }
+Timer.prototype.countdown = function() {
+    console.log('minutes: ' + this.minutes);
+    console.log(this.seconds);
+    console.log(this.milliseconds);
+    this.changeMilliseconds(-1);
+    this.displayTimer();
 };
 
-
-var formatCounter = function(numberOfDigits, value) {
-    var valueString = value.toString();
-    while (valueString.length < numberOfDigits) {
-        valueString = "0" + valueString;
-    }
-    return valueString;
+Timer.prototype.displayTimer = function() {
+    var minutesElement = document.getElementById("minute");
+    var secondsElement = document.getElementById("second");
+    var millisecondsElement = document.getElementById("millisecond");
+    minutesElement.innerHTML = this.minutes;
+    secondsElement.innerHTML = this.seconds;
+    millisecondsElement.innerHTML = this.milliseconds;
 };
 
-go();
+var firstTimer = new Timer(30);
+//
+theTime = document.getElementById("time");
+theTime.addEventListener("click", function(){setInterval(function() {firstTimer.countdown()}, 1)}, false);
